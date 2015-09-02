@@ -1,0 +1,14 @@
+{
+  "name": "cssscraper",
+  "version": "0.1.0",
+  "description": "A CSS Scraper",
+  "devDependencies": {
+    "browser-sync": "^2.8.2",
+    "express": "^4.13.0",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-minify-css": "*",
+    "gulp-sass": "^2.0.4",
+    "gulp-watch": "^4.3.5"
+  }
+}
