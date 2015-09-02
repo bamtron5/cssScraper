@@ -1,6 +1,71 @@
 Helpful npm:
 https://www.npmjs.com/package/website-scraper
 
+
+````
+ignoreCss = [
+   "/images/common/css/bootstrap/v2.2.2/css/bootstrap-noconflict.css",
+   "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css",
+   "/images/common/js/selectbox/jquery.selectbox.css?v2"
+];
+
+var newCss = "";
+
+$('link[rel="stylesheet"]').each(function(){
+   var cur = $(this);
+   var href = $(cur).attr('href');
+   var includeCss = true;
+   for(var x = 0; x < ignoreCss.length; x++){
+     if(href.indexOf(ignoreCss[x]) > -1){
+        includeCss = false;
+        break;
+     }
+   }
+   if(includeCss){
+      $.when($.get(href))
+         .done(function(response) {
+            newCss += response;
+         }
+      );
+   }
+});
+
+newCss += "/* BEGIN styletags for " + location.href + " */ \n";
+
+$('style').each(function(){
+   newCss += $(this)[0].textContent;
+});
+
+newCss += "/* END styletags for " + location.href + " */ \n";
+
+function removeOldCss(){
+   $('link[rel="stylesheet"]').each(function(){
+      var removeCss = true;
+      for(var x = 0; x < ignoreCss.length; x++){
+        if($(this).attr('href').indexOf(ignoreCss[x]) > -1){
+           removeCss = false;
+           break;
+        } else {
+           removeCss = true;
+        }
+      }
+
+      if(removeCss){
+         $(this).remove();
+      }
+   });
+}
+
+newCss.replace(/(\r\n|\n|\r)/gm,"");
+
+function addNewCss(){
+   $('head').append("<style id='newStyle'>" + newCss + "</style>");
+   console.clear();
+   console.log(newCss);
+}
+
+````
+
 ````
 var styles = document.styleSheets;
 var ruleLists = [];
@@ -24,7 +89,7 @@ while(i < ruleLists.length){
          ruleSets[ruleLists[i][x].selectorText] = "";  
          try{
             curStyle.cssText;
-            ruleSets[ruleLists[i][x].selectorText] = curStyle.cssText;
+            ruleSets[ruleLists[i][x].selectorText] += curStyle.cssText;
          }catch(e){
             
          }
@@ -49,15 +114,21 @@ for(var x = 0; x < ruleLength; x++){
 
 newCss += "</style>";
 
+var keepStyle = 'bootstrap';
+
 $('style, link').each(function(){
-    $(this).remove();
+    if($(this).attr('href') && $(this).attr('href').indexOf(keepStyle) > -1){
+       null;
+    } else {
+       $(this).remove();
+    }
 });
 $('head#Master_Head1').append(newCss);
 
 //console.log(rulesTxt);
 //console.log(ruleStyles);
 //console.log(ruleLists);
-//console.log(ruleSets);
+console.log(ruleSets);
 ````
 
 Generating files through node:
