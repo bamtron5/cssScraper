@@ -30,13 +30,17 @@ $('link[rel="stylesheet"]').each(function(){
    }
 });
 
-newCss += "/* BEGIN styletags for " + location.href + " */ \n";
+newCss += "/* ";
+newCss += "BEGIN styletags for " + location.href;
+newCss += " */";
 
 $('style').each(function(){
    newCss += $(this)[0].textContent;
 });
 
-newCss += "/* END styletags for " + location.href + " */ \n";
+newCss += "/* ";
+newCss += "END styletags for " + location.href;
+newCss += " */";
 
 function removeOldCss(){
    $('link[rel="stylesheet"]').each(function(){
@@ -56,14 +60,13 @@ function removeOldCss(){
    });
 }
 
-newCss.replace(/(\r\n|\n|\r)/gm,"");
+newCss.replace(/(\r\n|\n|\r)/g,"");
 
 function addNewCss(){
    $('head').append("<style id='newStyle'>" + newCss + "</style>");
    console.clear();
    console.log(newCss);
 }
-
 ````
 
 ````
