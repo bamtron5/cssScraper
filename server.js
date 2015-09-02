@@ -12,9 +12,9 @@ request(url, function(error, response, html){
     if(!error){
         var $ = cheerio.load(html);
         var css;
-    $('body').filter(function(){
+    $('*').filter(function(){
     	var data = $(this);
-        css = data.css(['color']);
+        css = data.css(['padding']);
         console.log(css);
         console.log(data);
     })
