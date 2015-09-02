@@ -41,3 +41,6 @@ while(i < ruleStyles.length){
 //console.log(ruleStyles);
 console.log(ruleLists);
 ````
+
+Generating files through node:
+http://stackoverflow.com/questions/11944932/how-to-download-a-file-with-node-js
